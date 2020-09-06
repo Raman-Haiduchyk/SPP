@@ -46,7 +46,7 @@ namespace BookService.Classes
 
         #endregion
 
-        #region Work with storage
+        #region Work with storage methods
         public void SaveList()
         {
             if (Storage != null) Storage.SaveBookList(Books);
@@ -67,6 +67,8 @@ namespace BookService.Classes
 
         #endregion
 
+        #region Work with list methods
+
         public void AddBook(Book book)
         {
             if (book == null) throw new ArgumentException();
@@ -83,5 +85,7 @@ namespace BookService.Classes
         {
             Books.Sort(comparer);
         }
+
+        #endregion
     }
 }

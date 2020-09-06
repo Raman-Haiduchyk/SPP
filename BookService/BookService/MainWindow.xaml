@@ -5,8 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookService"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="730">
     <Grid>
-        
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.25*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListView Name="bookListView" Grid.ColumnSpan="7" Grid.RowSpan="2">
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding ISBN}" Width="100">ISBN</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Author}" Width="100">Author's name</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Title}" Width="100">Title</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Publisher}" Width="100">Publishing house</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PublishedAt}" Width="100">Publishing year</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PagesCount}" Width="100">Pages</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Price}" Width="100">Price</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Grid.Row="2" Grid.Column="0">ISBN</Label>
+        <Label Grid.Row="2" Grid.Column="1">Author's name</Label>
+        <Label Grid.Row="2" Grid.Column="2">Title</Label>
+        <Label Grid.Row="2" Grid.Column="3">Publishing house</Label>
+        <Label Grid.Row="2" Grid.Column="4">Publishing year</Label>
+        <Label Grid.Row="2" Grid.Column="5">Pages</Label>
+        <Label Grid.Row="2" Grid.Column="6">Price</Label>
+        <TextBox Grid.Row="3" Grid.Column="0"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="3"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="4"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="5"></TextBox>
+        <TextBox Grid.Row="3" Grid.Column="6"></TextBox>
+        <Button Name="addBtn" Click="addBtn_Click" Grid.Row="4" Grid.Column="0">Add book</Button>
+        <Button Name="delBtn" Click="delBtn_Click" Grid.Row="4" Grid.Column="1">Delete book</Button>
+        <Button Name="saveBtn" Click="saveBtn_Click" Grid.Row="4" Grid.Column="2">Save list</Button>
+        <Button Name="saveAsBtn" Click="saveAsBtn_Click" Grid.Row="4" Grid.Column="3">Save as new list</Button>
+        <Button Name="loadBtn" Click="loadBtn_Click" Grid.Row="4" Grid.Column="4" >Load new list</Button>
+        <Button Name="addFromFileBtn" Click="addFromFileBtn_Click" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2">Add books from file</Button>
     </Grid>
 </Window>

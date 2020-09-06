@@ -9,14 +9,22 @@ namespace BookService.Classes
 {
     class BookStorage
     {
+        #region Fields
 
         private string path;
+
+        #endregion
+
+        #region Constructor
 
         public BookStorage(string filepath)
         {
             path = string.Copy(filepath) ?? throw new ArgumentNullException($"Path cannot be null.");
         }
-        
+
+        #endregion
+
+        #region Public methods
 
         public void SaveBookList(IEnumerable<Book> books)
         {
@@ -45,6 +53,10 @@ namespace BookService.Classes
             return books;
         }
 
+        #endregion
+
+        #region Private methods
+
         private void SaveBook (Book book, BinaryWriter binaryWriter)
         {
             binaryWriter.Write(book.ISBN);
@@ -67,5 +79,7 @@ namespace BookService.Classes
             double price = binaryReader.ReadDouble();
             return new Book(isbn, author, title, publisher, publishedAt, pagesCount, price);
         }
+
+        #endregion
     }
 }
