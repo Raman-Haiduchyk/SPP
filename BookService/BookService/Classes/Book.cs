@@ -49,7 +49,7 @@ namespace BookService.Classes
         public string ISBN
         {
             get => isbn;
-            private set
+            set
             {
                 if (string.IsNullOrEmpty(value))
                 {
@@ -62,7 +62,7 @@ namespace BookService.Classes
         public string Author
         {
             get => author;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -75,7 +75,7 @@ namespace BookService.Classes
         public string Title
         {
             get => title;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -88,7 +88,7 @@ namespace BookService.Classes
         public string Publisher
         {
             get => publisher;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -101,7 +101,7 @@ namespace BookService.Classes
         public int PublishedAt
         {
             get => publishedAt;
-            private set
+            set
             {
                 if (value < 1 || value > DateTime.Today.Year)
                 {
@@ -114,7 +114,7 @@ namespace BookService.Classes
         public int PagesCount
         {
             get => pagesCount;
-            private set
+            set
             {
                 if (value < 1)
                 {
@@ -127,7 +127,7 @@ namespace BookService.Classes
         public double Price
         {
             get => price;
-            private set
+            set
             {
                 if (value < 0 + 0.0001)
                 {
@@ -142,7 +142,7 @@ namespace BookService.Classes
         /// <summary>
         /// Creates book exemplar.
         /// </summary>
-        /// <param name="isbn">ISBN identifier</param>
+        /// <param name="isbn">ISBN identifier.</param>
         /// <param name="author">Athor's name.</param>
         /// <param name="title">Book title.</param>       
         /// <param name="publisher">Publishing house.</param>
@@ -188,10 +188,22 @@ namespace BookService.Classes
         }
         #endregion
 
+        #region Overridden operators == and !=
+        public static bool operator ==(Book a, Book b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Book a, Book b)
+        {
+            return !a.Equals(b);
+        }
+        #endregion
+
         #region IEquatable implementation
         public bool Equals(Book book)
         {
-            if (book == null) return false;
+            if (ReferenceEquals(book, null)) return false;
             return (ISBN == book.ISBN) &&
                    (Author == book.Author) &&
                    (Title == book.Title) &&
@@ -213,7 +225,7 @@ namespace BookService.Classes
 
         public int CompareTo(Book other)
         {
-            if (other == null) return 1;
+            if (ReferenceEquals(other, null)) return 1;
             return Title.CompareTo(other.Title); 
         }
 
