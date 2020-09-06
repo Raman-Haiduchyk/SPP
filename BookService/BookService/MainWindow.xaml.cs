@@ -35,7 +35,22 @@ namespace BookService
 
         private void addBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                string isbn = isbnTextBox.Text;
+                string author = authorTextBox.Text;
+                string title = titleTextBox.Text;
+                string publisher = publisherTextBox.Text;
+                int publishedAt = int.Parse(publishedAtTextBox.Text);
+                int pagesCount = int.Parse(pagesCountTextBox.Text);
+                double price = double.Parse(priceTextBox.Text);
+                bookList.AddBook(new Book(isbn, author, title, publisher, publishedAt, pagesCount, price));
+            }
+            catch
+            {
+                return;
+            }
+            
         }
 
         private void delBtn_Click(object sender, RoutedEventArgs e)
@@ -43,19 +58,18 @@ namespace BookService
             if (bookListView.SelectedIndex != -1) bookList.DeleteBook(bookListView.SelectedIndex);
         }
 
+        #region Save and Load methods
+
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void loadBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void addFromFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (bookList.Storage != null)
+            {
+                bookList.SaveList();
+            }
+            else
+            {
+                saveAsBtn_Click(sender, e);
+            }
         }
 
         private void saveAsBtn_Click(object sender, RoutedEventArgs e)
@@ -66,5 +80,25 @@ namespace BookService
             bookList.Storage = new BookStorage(filepath);
             bookList.SaveList();
         }
+
+        private void loadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false) return;
+            string filepath = openFileDialog.FileName;
+            bookList.Storage = new BookStorage(filepath);
+            bookList.LoadNewList();
+            bookListView.ItemsSource = bookList.Books;
+        }
+
+        private void addFromFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false) return;
+            string filepath = openFileDialog.FileName;
+            bookList.LoadListToCurrent(new BookStorage(filepath));
+        }
+
+        #endregion
     }
 }

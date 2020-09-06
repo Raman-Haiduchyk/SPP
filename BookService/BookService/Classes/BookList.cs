@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,11 @@ namespace BookService.Classes
         #endregion
 
         #region Properties
-        public List<Book> Books { get; private set;}
+        public ObservableCollection<Book> Books { get; private set;}
 
         public BookStorage Storage 
         {
-            private get => storage;
+            get => storage;
             set
             {
                 if (value == null) throw new ArgumentException();
@@ -34,14 +35,14 @@ namespace BookService.Classes
 
         public BookList()
         {
-            Books = new List<Book>();
+            Books = new ObservableCollection<Book>();
         }
 
         public BookList(BookStorage bookStorage)
         {
             if (storage == null) throw new ArgumentException();
             Storage = bookStorage;
-            Books = new List<Book>(Storage.LoadBookList());
+            Books = new ObservableCollection<Book>(Storage.LoadBookList());
         }
 
         #endregion
@@ -54,14 +55,14 @@ namespace BookService.Classes
 
         public void LoadNewList()
         {
-            if (Storage != null) Books = new List<Book>(Storage.LoadBookList());
+            if (Storage != null) Books = new ObservableCollection<Book>(Storage.LoadBookList());
         }
 
-        public void LoadListToCurrent()
+        public void LoadListToCurrent(BookStorage bookStorage)
         {
-            if (Storage != null)
+            if (bookStorage != null)
             {
-                Books.AddRange(Storage.LoadBookList());
+                foreach (Book book in bookStorage.LoadBookList()) Books.Add(book);
             }
         }
 
@@ -83,7 +84,9 @@ namespace BookService.Classes
 
         public void Sort(IComparer<Book> comparer)
         {
-            Books.Sort(comparer);
+            List<Book> bufList = new List<Book>(Books);
+            bufList.Sort(comparer);
+            Books = new ObservableCollection<Book>(bufList);
         }
 
         #endregion
