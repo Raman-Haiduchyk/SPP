@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookService.Classes
 {
-    public class Book: IEquatable<Book>
+    public class Book: IEquatable<Book>, IComparable<Book>, IComparable
     {
         #region Fields
         /// <summary>
@@ -161,20 +161,13 @@ namespace BookService.Classes
         }
         #endregion
 
-        #region Object overridden methods
+        #region System.Object overridden methods
 
         public override string ToString() => $"ISBN: {ISBN}, Author: {Author}, Title: {Title}, Publishing house: {Publisher}, Year: {PublishedAt}, Count of pages: {PagesCount}, Price: {Price}";
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-            else
-            {
-                return (this.GetType() == obj.GetType()) ? Equals(obj as Book) : false;
-            }
+            return ReferenceEquals(this, obj) ? true : Equals(obj as Book);
         }
 
         public override int GetHashCode()
@@ -195,8 +188,10 @@ namespace BookService.Classes
         }
         #endregion
 
+        #region IEquatable implementation
         public bool Equals(Book book)
         {
+            if (book == null) return false;
             return (ISBN == book.ISBN) &&
                    (Author == book.Author) &&
                    (Title == book.Title) &&
@@ -206,6 +201,23 @@ namespace BookService.Classes
                    (Price == book.Price);
         }
 
-        
+        #endregion
+
+        #region IComparable implementation
+
+        public int CompareTo(object obj)
+        {
+            if (Equals(obj)) return 0;
+            return CompareTo(obj as Book);
+        }
+
+        public int CompareTo(Book other)
+        {
+            if (other == null) return 1;
+            return Title.CompareTo(other.Title); 
+        }
+
+        #endregion
+
     }
 }
