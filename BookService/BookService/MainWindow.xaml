@@ -41,13 +41,41 @@
             </ListView.Resources>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding ISBN}" Width="100">ISBN</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Author}" Width="100">Author's name</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Title}" Width="100">Title</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Publisher}" Width="100">Publishing house</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding PublishedAt}" Width="100">Publishing year</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding PagesCount}" Width="100">Pages</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Price}" Width="100">Price</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding ISBN}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="ISBN" Click="Sort_Click">ISBN</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Author}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Author" Click="Sort_Click">Author's name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Title}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Title" Click="Sort_Click">Title</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Publisher}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Publisher" Click="Sort_Click">Publishing house</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PublishedAt}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PublishedAt" Click="Sort_Click">Publishing year</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding PagesCount}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PagesCount" Click="Sort_Click">Pages</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Price}" Width="100">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Price" Click="Sort_Click">Price</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

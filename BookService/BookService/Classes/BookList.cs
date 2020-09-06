@@ -17,9 +17,9 @@ namespace BookService.Classes
         #endregion
 
         #region Properties
-        public ObservableCollection<Book> Books { get; private set;}
+        public ObservableCollection<Book> Books { get; private set; }
 
-        public BookStorage Storage 
+        public BookStorage Storage
         {
             get => storage;
             set
@@ -78,7 +78,7 @@ namespace BookService.Classes
 
         public void DeleteBook(int index)
         {
-            if(index < 0 || index >= Books.Count) throw new ArgumentException();
+            if (index < 0 || index >= Books.Count) throw new ArgumentException();
             Books.RemoveAt(index);
         }
 
@@ -91,4 +91,65 @@ namespace BookService.Classes
 
         #endregion
     }
+
+    #region Comparers
+
+    public class ISBNComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return string.Compare(x.ISBN, y.ISBN);
+        }
+    }
+
+    public class AuthorComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return string.Compare(x.Author, y.Author);
+        }
+    }
+
+    public class TitleComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return string.Compare(x.Title, y.Title);
+        }
+    }
+
+    public class PublisherComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return string.Compare(x.Publisher, y.Publisher);
+        }
+    }
+
+    public class PublishedAtCountComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return x.PublishedAt - y.PublishedAt;
+        }
+    }
+
+    public class PagesCountComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return x.PagesCount - y.PagesCount;
+        }
+    }
+
+    public class PriceComparer : IComparer<Book>
+    {
+        public int Compare(Book x, Book y)
+        {
+            return x.Price - y.Price;
+        }
+    }
+
+    #endregion
+
 }

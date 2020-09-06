@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BookService.Classes;
 using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace BookService
 {
@@ -25,13 +26,19 @@ namespace BookService
 
         private BookList bookList;
 
+        private GridViewColumnHeader listViewSortCol = null;
+
+        private ListSortDirection currentDirection = ListSortDirection.Descending;
+
         public MainWindow()
         {
             InitializeComponent();
             bookList = new BookList();
-            bookList.AddBook(new Book("dewdwe", "ferfe", "freferf", "freferf", 344, 34, 435.43));
+            bookList.AddBook(new Book("dewdwe", "ferfe", "freferf", "freferf", 344, 34, 43543));
             bookListView.ItemsSource = bookList.Books;
         }
+
+        #region Add and Delete methods
 
         private void addBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -43,7 +50,7 @@ namespace BookService
                 string publisher = publisherTextBox.Text;
                 int publishedAt = int.Parse(publishedAtTextBox.Text);
                 int pagesCount = int.Parse(pagesCountTextBox.Text);
-                double price = double.Parse(priceTextBox.Text);
+                int price = int.Parse(priceTextBox.Text);
                 bookList.AddBook(new Book(isbn, author, title, publisher, publishedAt, pagesCount, price));
             }
             catch
@@ -57,6 +64,8 @@ namespace BookService
         {
             if (bookListView.SelectedIndex != -1) bookList.DeleteBook(bookListView.SelectedIndex);
         }
+
+        #endregion
 
         #region Save and Load methods
 
@@ -100,5 +109,30 @@ namespace BookService
         }
 
         #endregion
+
+
+        #region Sort method
+
+        private void Sort_Click(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = (sender as GridViewColumnHeader);
+            string sortBy = column.Tag.ToString();
+            if (listViewSortCol != null)
+            {
+                bookListView.Items.SortDescriptions.Clear();
+            }
+
+            ListSortDirection newDir = ListSortDirection.Ascending;
+            if (listViewSortCol == column && currentDirection == newDir)
+                newDir = ListSortDirection.Descending;
+
+            listViewSortCol = column;
+            currentDirection = newDir;
+            bookListView.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+        }
+
+        #endregion
+
+
     }
 }

@@ -37,7 +37,7 @@ namespace BookService.Classes
         /// <summary>
         ///  Book price
         /// </summary>
-        private double price;
+        private int price;
 
         /// <summary>
         ///  Year of book publishing
@@ -124,7 +124,7 @@ namespace BookService.Classes
             }
         }
 
-        public double Price
+        public int Price
         {
             get => price;
             set
@@ -149,7 +149,7 @@ namespace BookService.Classes
         /// <param name="publishedAt">Year of book publishing.</param>
         /// <param name="pagesCount">Count of book pages.</param>
         /// <param name="price">Book price.</param>
-        public Book(string isbn, string author, string title, string publisher, int publishedAt, int pagesCount, double price)
+        public Book(string isbn, string author, string title, string publisher, int publishedAt, int pagesCount, int price)
         {
             ISBN = isbn;
             Author = author;

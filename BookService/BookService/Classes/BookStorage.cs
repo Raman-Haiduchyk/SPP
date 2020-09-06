@@ -76,7 +76,7 @@ namespace BookService.Classes
             string publisher = binaryReader.ReadString();
             int publishedAt = binaryReader.ReadInt32();
             int pagesCount = binaryReader.ReadInt32();
-            double price = binaryReader.ReadDouble();
+            int price = binaryReader.ReadInt32();
             return new Book(isbn, author, title, publisher, publishedAt, pagesCount, price);
         }
 
