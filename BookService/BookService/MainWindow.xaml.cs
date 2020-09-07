@@ -24,11 +24,15 @@ namespace BookService
     public partial class MainWindow : Window
     {
 
+        #region Fields
+
         private BookList bookList;
 
-        private GridViewColumnHeader listViewSortCol = null;
+        private string currentSortTag = null;
 
-        private ListSortDirection currentDirection = ListSortDirection.Descending;
+        private ListSortDirection currentSortDirection = ListSortDirection.Descending;
+
+        #endregion
 
         public MainWindow()
         {
@@ -110,29 +114,40 @@ namespace BookService
 
         #endregion
 
-
         #region Sort method
 
         private void Sort_Click(object sender, RoutedEventArgs e)
         {
-            GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            string sortBy = column.Tag.ToString();
-            if (listViewSortCol != null)
+            string sortTag = (sender as GridViewColumnHeader).Tag.ToString();
+            if (currentSortTag != null)
             {
                 bookListView.Items.SortDescriptions.Clear();
             }
 
-            ListSortDirection newDir = ListSortDirection.Ascending;
-            if (listViewSortCol == column && currentDirection == newDir)
-                newDir = ListSortDirection.Descending;
+            ListSortDirection SortDirection = ListSortDirection.Ascending;
+            if (currentSortTag == sortTag && currentSortDirection == SortDirection)
+                SortDirection = ListSortDirection.Descending;
 
-            listViewSortCol = column;
-            currentDirection = newDir;
-            bookListView.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+            currentSortTag = sortTag;
+            currentSortDirection = SortDirection;
+            bookListView.Items.SortDescriptions.Add(new SortDescription(sortTag, SortDirection));
         }
 
         #endregion
 
+        #region Input processing
+
+        private void intTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key < Key.D0 || e.Key > Key.D9)) e.Handled = true;
+        }
+
+        private void isbnTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key == Key.OemMinus)) e.Handled = true;
+        }
+
+        #endregion
 
     }
 }

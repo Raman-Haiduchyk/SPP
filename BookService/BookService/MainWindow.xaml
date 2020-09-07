@@ -86,13 +86,13 @@
         <Label Grid.Row="2" Grid.Column="4">Publishing year</Label>
         <Label Grid.Row="2" Grid.Column="5">Pages</Label>
         <Label Grid.Row="2" Grid.Column="6">Price</Label>
-        <TextBox Name="isbnTextBox" Grid.Row="3" Grid.Column="0"></TextBox>
+        <TextBox Name="isbnTextBox" Grid.Row="3" Grid.Column="0" PreviewKeyDown="isbnTextBox_PreviewKeyDown"></TextBox>
         <TextBox Name="authorTextBox" Grid.Row="3" Grid.Column="1"></TextBox>
         <TextBox Name="titleTextBox" Grid.Row="3" Grid.Column="2"></TextBox>
         <TextBox Name="publisherTextBox" Grid.Row="3" Grid.Column="3"></TextBox>
-        <TextBox Name="publishedAtTextBox" Grid.Row="3" Grid.Column="4"></TextBox>
-        <TextBox Name="pagesCountTextBox" Grid.Row="3" Grid.Column="5"></TextBox>
-        <TextBox Name="priceTextBox" Grid.Row="3" Grid.Column="6"></TextBox>
+        <TextBox Name="publishedAtTextBox" Grid.Row="3" Grid.Column="4" PreviewKeyDown="intTextBox_PreviewKeyDown"></TextBox>
+        <TextBox Name="pagesCountTextBox" Grid.Row="3" Grid.Column="5" PreviewKeyDown="intTextBox_PreviewKeyDown"></TextBox>
+        <TextBox Name="priceTextBox" Grid.Row="3" Grid.Column="6" PreviewKeyDown="intTextBox_PreviewKeyDown"></TextBox>
         <Button Name="addBtn" Click="addBtn_Click" Grid.Row="4" Grid.Column="0">Add book</Button>
         <Button Name="delBtn" Click="delBtn_Click" Grid.Row="4" Grid.Column="1">Delete book</Button>
         <Button Name="saveBtn" Click="saveBtn_Click" Grid.Row="4" Grid.Column="2">Save list</Button>
