@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BookService.Classes
@@ -51,10 +52,13 @@ namespace BookService.Classes
             get => isbn;
             set
             {
-                if (string.IsNullOrEmpty(value))
-                {
+                var regex = new Regex(@"^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$");
 
+                if (string.IsNullOrEmpty(value) || !regex.IsMatch(value))
+                {
+                    throw new ArgumentNullException("Invalid ISBN.");
                 }
+
                 isbn = value;
             }
         }
@@ -66,7 +70,7 @@ namespace BookService.Classes
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-
+                    throw new ArgumentNullException("Author string cannot be empty or null.");
                 }
                 author = value;
             }
@@ -79,7 +83,7 @@ namespace BookService.Classes
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-
+                    throw new ArgumentNullException("Title string cannot be empty or null.");
                 }
                 title = value;
             }
@@ -92,7 +96,7 @@ namespace BookService.Classes
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-
+                    throw new ArgumentNullException("Publisher string cannot be empty or null.");
                 }
                 publisher = value;
             }
@@ -105,7 +109,7 @@ namespace BookService.Classes
             {
                 if (value < 1 || value > DateTime.Today.Year)
                 {
-
+                    throw new ArgumentOutOfRangeException("Publishing year cannot be less than zero or more than current year.");
                 }
                 publishedAt = value;
             }
@@ -118,7 +122,7 @@ namespace BookService.Classes
             {
                 if (value < 1)
                 {
-
+                    throw new ArgumentOutOfRangeException("Pages count cannot be less than zero or equal to zero.");
                 }
                 pagesCount = value;
             }
@@ -129,9 +133,9 @@ namespace BookService.Classes
             get => price;
             set
             {
-                if (value < 0 + 0.0001)
+                if (value < 0.00001)
                 {
-
+                    throw new ArgumentOutOfRangeException("Price cannot be less than zero or equal to zero.");
                 }
                 price = value;
             }
@@ -151,13 +155,27 @@ namespace BookService.Classes
         /// <param name="price">Book price.</param>
         public Book(string isbn, string author, string title, string publisher, int publishedAt, int pagesCount, int price)
         {
-            ISBN = isbn;
-            Author = author;
-            Title = title;
-            Publisher = publisher;
-            PublishedAt = publishedAt;
-            PagesCount = pagesCount;
-            Price = price;
+           // try
+            {
+                ISBN = isbn;
+                Author = author;
+                Title = title;
+                Publisher = publisher;
+                PublishedAt = publishedAt;
+                PagesCount = pagesCount;
+                Price = price;
+            }
+        /*    catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new ArgumentOutOfRangeException(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new ArgumentNullException(ex.Message);
+            }
+        */
         }
         #endregion
 
@@ -185,18 +203,6 @@ namespace BookService.Classes
                 hash = hash * 23 + Price.GetHashCode();
                 return hash;
             }
-        }
-        #endregion
-
-        #region Overridden operators == and !=
-        public static bool operator ==(Book a, Book b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(Book a, Book b)
-        {
-            return !a.Equals(b);
         }
         #endregion
 

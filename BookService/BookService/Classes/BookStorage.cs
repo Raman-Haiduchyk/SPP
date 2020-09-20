@@ -19,7 +19,8 @@ namespace BookService.Classes
 
         public BookStorage(string filepath)
         {
-            path = string.Copy(filepath) ?? throw new ArgumentNullException($"Path cannot be null.");
+            if(string.IsNullOrWhiteSpace(filepath)) throw new ArgumentNullException("Path cannot be null or empty.");
+            path = string.Copy(filepath);
         }
 
         #endregion
@@ -28,13 +29,21 @@ namespace BookService.Classes
 
         public void SaveBookList(IEnumerable<Book> books)
         {
-            using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
+            try
             {
-                foreach (Book book in books)
+                using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
                 {
-                    SaveBook(book, writer);
+                    foreach (Book book in books)
+                    {
+                        SaveBook(book, writer);
+                    }
                 }
             }
+            catch
+            {
+                throw new Exception("Saving error occured.");
+            }
+            
         }
 
         public IEnumerable<Book> LoadBookList()
@@ -47,7 +56,14 @@ namespace BookService.Classes
             {
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                 {
-                    books.Add(LoadBook(reader));
+                    try
+                    {
+                        books.Add(LoadBook(reader));
+                    }
+                    catch
+                    {
+                        throw new Exception("Loading error occured.");
+                    }
                 }
             }
             return books;
@@ -59,25 +75,40 @@ namespace BookService.Classes
 
         private void SaveBook (Book book, BinaryWriter binaryWriter)
         {
-            binaryWriter.Write(book.ISBN);
-            binaryWriter.Write(book.Author);
-            binaryWriter.Write(book.Title);
-            binaryWriter.Write(book.Publisher);
-            binaryWriter.Write(book.PublishedAt);
-            binaryWriter.Write(book.PagesCount);
-            binaryWriter.Write(book.Price);
+            try
+            {
+                binaryWriter.Write(book.ISBN);
+                binaryWriter.Write(book.Author);
+                binaryWriter.Write(book.Title);
+                binaryWriter.Write(book.Publisher);
+                binaryWriter.Write(book.PublishedAt);
+                binaryWriter.Write(book.PagesCount);
+                binaryWriter.Write(book.Price);
+            }
+            catch
+            {
+                throw new Exception();
+            }
+            
         }
 
         private Book LoadBook(BinaryReader binaryReader)
         {
-            string isbn = binaryReader.ReadString();
-            string author = binaryReader.ReadString();
-            string title = binaryReader.ReadString();
-            string publisher = binaryReader.ReadString();
-            int publishedAt = binaryReader.ReadInt32();
-            int pagesCount = binaryReader.ReadInt32();
-            int price = binaryReader.ReadInt32();
-            return new Book(isbn, author, title, publisher, publishedAt, pagesCount, price);
+            try
+            {
+                string isbn = binaryReader.ReadString();
+                string author = binaryReader.ReadString();
+                string title = binaryReader.ReadString();
+                string publisher = binaryReader.ReadString();
+                int publishedAt = binaryReader.ReadInt32();
+                int pagesCount = binaryReader.ReadInt32();
+                int price = binaryReader.ReadInt32();
+                return new Book(isbn, author, title, publisher, publishedAt, pagesCount, price);
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
 
         #endregion

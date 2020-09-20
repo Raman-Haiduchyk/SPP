@@ -24,7 +24,7 @@ namespace BookService.Classes
             get => storage;
             set
             {
-                if (value == null) throw new ArgumentException();
+                if (value == null) throw new ArgumentException("Storage can't be null");
                 storage = value;
             }
         }
@@ -40,9 +40,16 @@ namespace BookService.Classes
 
         public BookList(BookStorage bookStorage)
         {
-            if (storage == null) throw new ArgumentException();
-            Storage = bookStorage;
-            Books = new ObservableCollection<Book>(Storage.LoadBookList());
+            try
+            {
+                Storage = bookStorage;
+                Books = new ObservableCollection<Book>(Storage.LoadBookList());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         #endregion
@@ -50,20 +57,43 @@ namespace BookService.Classes
         #region Work with storage methods
         public void SaveList()
         {
-            if (Storage != null) Storage.SaveBookList(Books);
+            try
+            {
+                if (Storage != null) Storage.SaveBookList(Books);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public void LoadNewList()
         {
-            if (Storage != null) Books = new ObservableCollection<Book>(Storage.LoadBookList());
+            try
+            {
+                if (Storage != null) Books = new ObservableCollection<Book>(Storage.LoadBookList());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void LoadListToCurrent(BookStorage bookStorage)
         {
-            if (bookStorage != null)
+            try
             {
-                foreach (Book book in bookStorage.LoadBookList()) Books.Add(book);
+                if (bookStorage != null)
+                {
+                    foreach (Book book in bookStorage.LoadBookList()) Books.Add(book);
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         #endregion
@@ -86,7 +116,8 @@ namespace BookService.Classes
         {
             List<Book> bufList = new List<Book>(Books);
             bufList.Sort(comparer);
-            Books = new ObservableCollection<Book>(bufList);
+            Books.Clear();
+            foreach (Book book in bufList) Books.Add(book);
         }
 
         #endregion
