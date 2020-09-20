@@ -177,7 +177,10 @@ namespace BookService.Classes
     {
         public int Compare(Book x, Book y)
         {
-            return x.Price - y.Price;
+            double a, b;
+            double.TryParse(x.Price, out a);
+            double.TryParse(x.Price, out b);
+            return (a > b) ? 1 : -1;
         }
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace BookService.Classes
 {
@@ -38,7 +39,7 @@ namespace BookService.Classes
         /// <summary>
         ///  Book price
         /// </summary>
-        private int price;
+        private double price;
 
         /// <summary>
         ///  Year of book publishing
@@ -128,16 +129,26 @@ namespace BookService.Classes
             }
         }
 
-        public int Price
+        public string Price
         {
-            get => price;
+            get => price.ToString("C", CultureInfo.CurrentCulture);
             set
             {
-                if (value < 0.00001)
+                double buf;
+                if (double.TryParse(value, out buf))
                 {
-                    throw new ArgumentOutOfRangeException("Price cannot be less than zero or equal to zero.");
+
+                    if (buf < 0.00001)
+                    {
+                        throw new ArgumentOutOfRangeException("Price cannot be so small.");
+                    }
+                    price = buf;
                 }
-                price = value;
+                else
+                {
+                    throw new ArgumentException("Wrong price format.");
+                }
+                
             }
         }
         #endregion
@@ -153,7 +164,7 @@ namespace BookService.Classes
         /// <param name="publishedAt">Year of book publishing.</param>
         /// <param name="pagesCount">Count of book pages.</param>
         /// <param name="price">Book price.</param>
-        public Book(string isbn, string author, string title, string publisher, int publishedAt, int pagesCount, int price)
+        public Book(string isbn, string author, string title, string publisher, int publishedAt, int pagesCount, string price)
         {
            // try
             {

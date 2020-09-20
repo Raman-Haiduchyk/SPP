@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using BookService.Classes;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace BookService
 {
@@ -28,18 +29,14 @@ namespace BookService
 
         private BookList bookList;
 
-        private string currentSortTag = null;
-
-        private ListSortDirection currentSortDirection = ListSortDirection.Descending;
-
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
             bookList = new BookList();
-            bookList.AddBook(new Book("111-222-333-4444", "ferfe", "freferf", "freferf", 344, 34, 43543));
-            bookListView.ItemsSource = bookList.Books;          
+            bookList.AddBook(new Book("111-222-333-4444", "ferfe", "freferf", "freferf", 344, 34, "43"));
+            bookListView.ItemsSource = bookList.Books;
         }
 
         #region Add and Delete methods
@@ -54,7 +51,7 @@ namespace BookService
                 string publisher = publisherTextBox.Text;
                 int publishedAt = int.Parse(publishedAtTextBox.Text);
                 int pagesCount = int.Parse(pagesCountTextBox.Text);
-                int price = int.Parse(priceTextBox.Text);
+                string price = priceTextBox.Text;
                 bookList.AddBook(new Book(isbn, author, title, publisher, publishedAt, pagesCount, price));
             }
             catch (OverflowException ex)
@@ -203,6 +200,14 @@ namespace BookService
         private void intTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (!(e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key == Key.Back)) e.Handled = true;
+        }
+
+        private void doubleTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if ((!(e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key == Key.Back || e.Key == Key.OemComma)) || (e.Key == Key.OemComma && (priceTextBox.Text.Contains(",") || priceTextBox.CaretIndex == 0)))
+            {
+                e.Handled = true;
+            }
         }
 
         private void isbnTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
