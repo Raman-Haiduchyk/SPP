@@ -52,7 +52,22 @@ namespace BookService
                 int publishedAt = int.Parse(publishedAtTextBox.Text);
                 int pagesCount = int.Parse(pagesCountTextBox.Text);
                 string price = priceTextBox.Text;
-                bookList.AddBook(new Book(isbn, author, title, publisher, publishedAt, pagesCount, price));
+                Book book = new Book(isbn, author, title, publisher, publishedAt, pagesCount, price);
+                foreach (Book otherBook in bookList.Books)
+                {
+                    if (book.ISBN == otherBook.ISBN)
+                    {
+                        if (book.Equals(otherBook))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            throw new FormatException("ISBN must be unique for different editions.");
+                        }
+                    }
+                }
+                bookList.AddBook(book);
             }
             catch (OverflowException ex)
             {
