@@ -146,7 +146,7 @@ namespace BookService.Classes
                 }
                 else
                 {
-                    throw new ArgumentException("Wrong price format.");
+                    throw new FormatException("Wrong price format.");
                 }
                 
             }

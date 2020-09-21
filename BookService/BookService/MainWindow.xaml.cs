@@ -62,6 +62,10 @@ namespace BookService
             {
                 MessageBox.Show(ex.ParamName);
             }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             catch
             {
                 MessageBox.Show("Wrong data");
