@@ -135,7 +135,7 @@ namespace BookService.Classes
             set
             {
                 double buf;
-                if (double.TryParse(value, out buf))
+                if (double.TryParse(value, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.CurrentCulture, out buf))
                 {
 
                     if (buf < 0.00001)
