@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace BookService.Classes
 {
@@ -178,8 +176,8 @@ namespace BookService.Classes
         public int Compare(Book x, Book y)
         {
             double a, b;
-            double.TryParse(x.Price, out a);
-            double.TryParse(x.Price, out b);
+            double.TryParse(x.Price, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.CurrentCulture, out a);
+            double.TryParse(y.Price, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.CurrentCulture, out b);
             return (a > b) ? 1 : -1;
         }
     }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace BookService.Classes
@@ -204,7 +200,6 @@ namespace BookService.Classes
             unchecked // Overflow is fine, just wrap
             {
                 int hash = 17;
-                // Suitable nullity checks etc, of course :)
                 hash = hash * 23 + ISBN.GetHashCode();
                 hash = hash * 23 + Author.GetHashCode();
                 hash = hash * 23 + Title.GetHashCode();
