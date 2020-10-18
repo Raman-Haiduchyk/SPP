@@ -8,7 +8,6 @@ namespace Mutex.MutexClass
     {
         #region Private Fields
 
-        private int locker = 0;
         private int owner = -1;
 
         #endregion
@@ -23,17 +22,16 @@ namespace Mutex.MutexClass
 
         public void Lock()
         {
-            while(Interlocked.CompareExchange(ref locker, 1, 0) != 0)
+            while(Interlocked.CompareExchange(ref owner, Thread.CurrentThread.ManagedThreadId, -1) != 0)
             {
                 Thread.Sleep(20);
             }
-            owner = Thread.CurrentThread.ManagedThreadId;
         }
 
         public void Unlock()
         {
             if (Thread.CurrentThread.ManagedThreadId != owner) throw new Exception("This thread doesn't own this mutex.");
-            Interlocked.Exchange(ref locker, 0);            
+            Interlocked.Exchange(ref owner, -1);            
         }
 
         #endregion
