@@ -61,9 +61,9 @@ namespace CustomThreadPool.FileService
                 {
                     Directory.CreateDirectory(newDir);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"Creating directory error: {newDir}");
+                    Console.WriteLine($"Creating directory error ({ex.Message}).");
                 }
             }
             foreach (var file in Directory.GetFiles(_src, "*.*", SearchOption.AllDirectories))
@@ -76,9 +76,9 @@ namespace CustomThreadPool.FileService
                         Console.WriteLine($"File copied:\n   from {file}\n   to {newFile}");
                         Interlocked.Increment(ref _filesCopied);               
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        Console.WriteLine($"Copying file error:\n   from {file}\n   to {newFile}");
+                        Console.WriteLine($"Copying file error ({ex.Message}):\n   from {file}\n   to {newFile}");
                         Interlocked.Increment(ref _copyErrorsOccured);
                     }
                 });

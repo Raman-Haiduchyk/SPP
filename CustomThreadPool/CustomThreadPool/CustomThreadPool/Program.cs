@@ -8,10 +8,14 @@ namespace CustomThreadPool
         static void Main(string[] args)
         {
             int threadsCount;
-            if (!(args.Length == 3 && int.TryParse(args[2], out threadsCount)))
+            if (!(args.Length == 3))
             {
-                Console.WriteLine(args[2]);
-                Console.WriteLine("Wrong cl parameters");
+                Console.WriteLine("Wrong parameters count");
+                return;
+            }
+            if (!int.TryParse(args[2], out threadsCount))
+            {
+                Console.WriteLine("Wrong threads count");
                 return;
             }
             try
