@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Threading;
+using Mutex.OSHandleClass;
+using System.Runtime.InteropServices;
 
 namespace Mutex
 {
     class Program
     {
+
+        [DllImport("Kernel32.dll", SetLastError = true)]
+        private static extern IntPtr GetStdHandle(int nStdHandle);
+
+        const int STD_OUTPUT_HANDLE = -11;
+
         static MutexClass.Mutex mutex = new MutexClass.Mutex();
         static void Main(string[] args)
         {
@@ -13,8 +21,19 @@ namespace Mutex
             {
                 new Thread(new ThreadStart(Running)).Start();
             }
-        //    Thread.Sleep(50);
-        //    mutex.Unlock();
+
+            Console.ReadLine();
+            OSHandle handle = new OSHandle(GetStdHandle(STD_OUTPUT_HANDLE));
+            handle.Dispose();
+            try
+            {
+                Console.WriteLine("shi");
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
         }
 
         static public void Running()

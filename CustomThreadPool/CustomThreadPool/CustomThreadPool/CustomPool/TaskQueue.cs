@@ -12,6 +12,10 @@ namespace CustomThreadPool.CustomPool
 
         private const int _defaultThreadCount = 5;
 
+        private int _counter = 0;
+
+        private int _lockedCounter = 0;
+
         private bool _isWorking = true;
 
         private object _locker = new object();
@@ -56,15 +60,22 @@ namespace CustomThreadPool.CustomPool
                 {
                     if (_taskQueue.Count == 0)
                     {
+                        _lockedCounter++;
                         Monitor.Wait(_locker);
+                        _lockedCounter--;
                     }
                     else
                     {
                         task = _taskQueue.Dequeue();
+                        _counter++;
                         Monitor.Pulse(_locker);
                     }
                 }
-                if (task != null) task();
+                if (task != null)
+                {
+                    task();
+                    Interlocked.Decrement(ref _counter);
+                }
             }
         }
 
@@ -79,7 +90,7 @@ namespace CustomThreadPool.CustomPool
                 Thread.Sleep(300);
                 lock(_locker)
                 {
-                    if (_taskQueue.Count == 0) break;
+                    if (_taskQueue.Count == 0 && _counter == 0) break;
                 }
             }
             lock (_locker)
@@ -98,7 +109,7 @@ namespace CustomThreadPool.CustomPool
             lock (_locker)
             {
                 _taskQueue.Enqueue(taskDelegate);
-                Monitor.Pulse(_locker);
+                if (_lockedCounter != 0) Monitor.Pulse(_locker);
             }
         }
 

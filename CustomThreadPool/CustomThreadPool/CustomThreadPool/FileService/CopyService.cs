@@ -23,13 +23,9 @@ namespace CustomThreadPool.FileService
         {
             _src = src;
             _dest = dest;
-            if (!Directory.Exists(_src)) throw new Exception("Wrong source directory");
-            if (File.Exists(_dest))
-            {
-                var attr = File.GetAttributes(_dest);
-                if (!attr.HasFlag(FileAttributes.Directory)) throw new Exception("Wrong destination directory");
-            }
-            else
+            if (_src.CompareTo(_dest) == 0) throw new ArgumentException("Sorce directory cannot be equal to destination directory.");
+            if (!Directory.Exists(_src)) throw new ArgumentException("Wrong source directory.");
+            if (!Directory.Exists(_dest))
             {
                 try
                 {
@@ -37,10 +33,10 @@ namespace CustomThreadPool.FileService
                 }
                 catch
                 {
-                    throw new Exception("Cannot create destination directory");
+                    throw new Exception("Cannot create destination directory.");
                 }
             }
-            if (threadsCount < 1)
+            if (threadsCount < 2)
             {
                 Console.WriteLine("Created thread pool with default count of threads(5).");
                 _taskQueue = new TaskQueue();

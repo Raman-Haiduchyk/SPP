@@ -22,7 +22,7 @@ namespace Mutex.MutexClass
 
         public void Lock()
         {
-            while(Interlocked.CompareExchange(ref owner, Thread.CurrentThread.ManagedThreadId, -1) != 0)
+            while(Interlocked.CompareExchange(ref owner, Thread.CurrentThread.ManagedThreadId, -1) != -1)
             {
                 Thread.Sleep(20);
             }

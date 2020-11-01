@@ -1,5 +1,6 @@
 ﻿using System;
 using CustomThreadPool.FileService;
+using System.Threading;
 
 namespace CustomThreadPool
 {
@@ -26,7 +27,6 @@ namespace CustomThreadPool
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return;
             }                       
         }
     }
