@@ -31,7 +31,7 @@ namespace Mutex
             }
             catch (Exception ex)
             {
-                
+                //
             }
             
         }

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Mutex.OSHandleClass
 {
-    class OSHandle
+    public class OSHandle
     {
         [DllImport("Kernel32.dll", SetLastError = true)]
         private static extern bool CloseHandle(IntPtr handle);
@@ -11,9 +11,8 @@ namespace Mutex.OSHandleClass
         private bool _disposed = false;
         public IntPtr Handle { get; set; }
 
-        public OSHandle()
+        public OSHandle() : this(IntPtr.Zero)
         {
-            Handle = IntPtr.Zero;
         }
 
         public OSHandle(IntPtr handle)
@@ -23,26 +22,23 @@ namespace Mutex.OSHandleClass
 
         ~OSHandle()
         {
-            Dispose(false);
+            CloseHandle();
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            CloseHandle();
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void CloseHandle()
         {
-            lock (this)
+            if (!_disposed && Handle != IntPtr.Zero)
             {
-                if (!_disposed && Handle != IntPtr.Zero)
-                {
-                    CloseHandle(Handle);
-                    Handle = IntPtr.Zero;
-                }
-                _disposed = true;
+                CloseHandle(Handle);
+                Handle = IntPtr.Zero;
             }
+            _disposed = true;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Mutex.MutexClass
 {
-    class Mutex : IMutex
+    public class Mutex : IMutex
     {
         #region Private Fields
 
