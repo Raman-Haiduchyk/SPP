@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace LogBuffer.LogBufferClass
 {
-    class LogBuffer : ILogBuffer, IDisposable
+    public class LogBuffer : ILogBuffer, IDisposable
     {
         #region Private Fields
 
-        private const int defaultTimeLimit = 3000;
+        private const int defaultTimeLimit = 100000;
         private const int defaultMessagesLimit = 20;
         private const string defaultFilePath = @"log.txt";
 
-        private List<string> _messagesList;
+        private List<string> _messagesList = new List<string>();
         private Timer _timer;
         private string _filePath;
         private int _messagesLimit;
@@ -36,20 +36,20 @@ namespace LogBuffer.LogBufferClass
         {
             _filePath = filePath;
             _messagesLimit = messagesLimit;
-            StreamWriter streamWriter = null;
+            FileStream fs = null;
             if (timeLimit < 1 || messagesLimit < 1) throw new ArgumentException("Timer limit and Messages limit can't be less than 1");
             try
             {
                 _timer = new Timer(new TimerCallback(TimerCount), null, timeLimit, timeLimit);
-                streamWriter = File.CreateText(filePath);
+                fs = File.Create(filePath);
             }
-            catch
+            catch (Exception ex)
             {
-                //throw exceptions
+                throw new Exception(ex.Message);
             }
             finally
             {
-                streamWriter?.DisposeAsync();
+                fs?.DisposeAsync();
             }
         }
 

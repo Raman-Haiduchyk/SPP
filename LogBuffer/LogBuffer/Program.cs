@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using LogBuffer.ParallelClass;
 using LogBuffer.LogBufferClass;
 using LogBuffer.CustomPoolClass;
@@ -16,7 +17,15 @@ namespace LogBuffer
                 tasks[i] = delegate{ Console.WriteLine($"Task num: {buf}"); };
             }
             CustomParallel.WaitAll(tasks);
-           
+            LogBufferClass.LogBuffer logBuffer = new LogBufferClass.LogBuffer(messagesLimit: 5);
+            int j = 0;
+            while (true)
+            {
+                Thread.Sleep(5000);
+                logBuffer.Add($"Message: {j}");
+                if (j > 20000) break;
+                j++;
+            }
         }
     }
 }
